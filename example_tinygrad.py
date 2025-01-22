@@ -53,13 +53,23 @@ https://github.com/tinygrad/tinygrad/blob/49b914ee691a9f2ecdc6f0f852c4a5f4fe40c0
 #     nll = -self.gather(1, Y.unsqueeze(1)).squeeze(1) * masked_weight
 #     return nll.sum() / masked_weight.sum() if reduction == "mean" else nll._do_reduction(reduction)
 
-from tinygrad import Tensor
+import tinygrad
+from tinygrad.tensor import Tensor
 
+def kl_divergence(p: Tensor, q: Tensor):
+    # p, q are probabilities (e.g. from softmax)
+    # We can do: sum(p * log(p/q))
+    return (p * (p.log() - q.log())).sum()
 
-def kl_loss(p, q):
-    return p.log_softmax().mul(q).sum(axis=1)
+# or if you have logits for p and q:
+def kl_divergence_logits(logits_p: Tensor, logits_q: Tensor):
+    log_p = logits_p.log_softmax()
+    log_q = logits_q.log_softmax()
+    p = log_p.exp()
+    return (p * (log_p - log_q)).sum()
 
 p = Tensor([9/25, 12/25, 4/25])
 q = Tensor([1/3, 1/3, 1/3])
 
-kl_loss(p, q)
+print(kl_divergence(p, q).numpy())
+print(kl_divergence_logits(p, q).numpy())

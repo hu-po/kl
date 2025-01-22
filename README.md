@@ -1,6 +1,6 @@
 # kl
 
-playing around with relative entropy (KL divergence) part of this [YouTube Livestream]()
+playing around with relative entropy (KL divergence) part of this [YouTube Livestream](https://youtube.com/live/LuF4NGezcxo)
 
 
 install cpu versions only
