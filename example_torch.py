@@ -19,8 +19,14 @@ def kl_divergence(p, q):
     return torch.sum(p * torch.log(p / q))
 
 # Define the distributions
-p = [9/25, 12/25, 4/25]  # Distribution P
-q = [1/3, 1/3, 1/3]      # Distribution Q
+p = torch.tensor(
+    [9/25, 12/25, 4/25],
+    dtype=torch.float32
+) # Distribution P
+q = torch.tensor(
+    [1/3, 1/3, 1/3],
+    dtype=torch.float32
+) # Distribution Q
 
 # Calculate KL divergences
 kl_pq = kl_divergence(p, q)  # D_KL(P || Q)
